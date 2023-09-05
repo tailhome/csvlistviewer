@@ -22,6 +22,7 @@ Example of csv file is like:
 Possible operations for this tool are following:
 - select image file path
 - paging(forward/backward) in same file path.
+- copy selected line texts into clipboard by ctrl-c key pressed.
 ![](screenshot/screen.png)
 
 # Usage
