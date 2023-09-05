@@ -127,6 +127,10 @@ efj+BTjfeAQWaCAOIQAAOw=="""
         self.treeview.configure(yscrollcommand = self.vscroll.set)
         self.treeview.grid(row = 0, column = 0, sticky = tk.NSEW, rowspan=5)
 
+        # set event listener for treeview
+        self.treeview.bind('<<TreeviewSelect>>', self.app.treeview_row_selected(self.treeview))
+        self.treeview.bind('<Control-Key-c>', self.app.treeview_ctrlc_pressed(self.treeview))
+
     def set_status_label(self, textval):
         """ Set text to status-label. """
         self.status_label.config(text = textval)
@@ -149,3 +153,8 @@ efj+BTjfeAQWaCAOIQAAOw=="""
             idx = str(i)
             name = 'picture' + idx
             self.treeview.insert("", 'end', iid=idx, values=row.get_texts(), image=row.get_image(self))
+
+    def fill_clipboard(self, text):
+        if len(text) > 0:
+            self.clipboard_clear()
+            self.clipboard_append(text)

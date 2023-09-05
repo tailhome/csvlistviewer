@@ -19,6 +19,7 @@ class ListModel:
         self.path_indexes = None
         self.selected_path = None
         self.imagebase = None   # default - read from current directory
+        self.selected_ids = None
 
     def read(self, filename):
         """ Read csv file and stores contents to instance variables. """
@@ -161,13 +162,25 @@ class ListModel:
             self.current_pos = 0
         return True
 
-# if __name__ == '__main__':
-#     model = ListModel()
-#     model.read('test.csv')
-#     print(model.get_path_list())
-#     model.change_path('uma')
-#     print(model.get_imagerows())
-#     model.change_path('ushi')
-#     print(model.get_imagerows())
-#     model.change_path('tori')
-#     print(model.get_imagerows())
+    def row_selected(self, ids):
+        """set selected tuple of row ids"""
+        self.selected_ids = tuple(ids)
+
+    def get_row_text(self):
+        retstr = ''
+        if self.selected_path is None or len(self.indexes) == 0:
+            # unable to get row text
+            return retstr
+        current_indexes = self.path_indexes[self.selected_path]
+        for selected_id in self.selected_ids:
+            if len(retstr) > 0:
+                retstr = retstr + '\n'
+            texts = self.lines[current_indexes[self.current_pos + int(selected_id)]]
+            line = ''
+            for i,text in enumerate(texts):
+                if i == 0:
+                    line = text
+                else:
+                    line = line + '\t' + text
+            retstr = retstr + line
+        return retstr

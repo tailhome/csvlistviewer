@@ -204,6 +204,20 @@ class CsvListApp:
         else:
             pass
 
+    def treeview_row_selected(self, treeview):
+        def inner(event):
+            nonlocal self
+            self.model.row_selected(treeview.selection())
+        return inner
+
+    def treeview_ctrlc_pressed(self, treeview):
+        """Callback method to have tree-view have keyboard event of Ctrl-C"""
+        def inner(event):
+            nonlocal self
+            texts = self.model.get_row_text()
+            self.view.fill_clipboard(texts)
+        return inner
+
 if __name__ == '__main__':
     app = CsvListApp()
     app.launch()
